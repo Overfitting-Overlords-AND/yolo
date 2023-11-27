@@ -5,7 +5,7 @@ This week, our focus will be on Convolutional Neural Networks (CNNs), specifical
 Goal of the week
 Your task for the week is to train a YOLO model from scratch. The objective is to detect and identify numbers in images from Theera, particularly focusing on MNIST digits. You need to accurately determine the bounding box and identify the digit it encloses. An example of the expected input and output is provided below for reference.
 
-example
+https://cdn.mlx.institute/assets/cortex.07.png
 
 To clarify, by the end of the week, you should have a model deployed to Theera. When an image with one or more digits is input, your model/server should return an image highlighting each digit with its respective bounding box.
 
