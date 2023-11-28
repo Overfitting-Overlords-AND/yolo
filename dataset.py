@@ -32,7 +32,8 @@ class DigitsDataset(torch.utils.data.Dataset):
     x, y = x / c.IMAGE_WIDTH, y / c.IMAGE_HEIGHT
     i, j = int(c.SR * y), int(c.SC * x)
     x_cell, y_cell = c.SC * x - j, c.SR * y - i
-    w_cell, h_cell = c.SC * w / c.IMAGE_WIDTH, c.SR * h / c.IMAGE_HEIGHT
+    # w_cell, h_cell = c.SC * w / c.IMAGE_WIDTH, c.SR * h / c.IMAGE_HEIGHT
+    w_cell, h_cell = w / c.IMAGE_WIDTH, h / c.IMAGE_HEIGHT
     label_matrix[i, j, digit_label] = 1 # one hot encoding
     label_matrix[i, j, c.C] = 1 # cell contains centre of digit
     label_matrix[i, j, c.C+1:c.C+5] = torch.tensor([ x_cell, y_cell, w_cell, h_cell ])
