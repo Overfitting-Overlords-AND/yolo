@@ -10,7 +10,7 @@ import torch.nn as nn
 Information about architecture config:
 Tuple is structured by (kernel_size, filters, stride, padding) 
 "M" is simply maxpooling with stride 2x2 and kernel 2x2
-List is structured by tuples and lastly int with number of repeats
+List is structurgit ed by tuples and lastly int with number of repeats
 """
 
 architecture_config = [
