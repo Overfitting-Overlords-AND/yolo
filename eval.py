@@ -56,10 +56,12 @@ while True:
       for cr in range(2):
           for cc in range(7):
             c, x, y, w, h = output[cr,cc,10:15]
+            p = output[cr,cc,:10]
             x, y = 100 * (cc + x), 100 * (cr + y)
             w, h = w * 700, h * 200
             if c > .5:   
               ax.add_patch(Rectangle((x-w/2,y-h/2),width=w, height=h, edgecolor='Red', facecolor='none'))
+              ax.set_title(torch.argmax(p).item())
       plt.axis('off')
       plt.show()
       print(output)
