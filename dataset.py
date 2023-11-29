@@ -18,11 +18,11 @@ class DigitsDataset(torch.utils.data.Dataset):
     resized_image = TF.resize(image, new_size)
     return_image = torch.zeros(c.IMAGE_HEIGHT, c.IMAGE_WIDTH)
     return_image[y1:y1+new_size, x1:x1+new_size] = resized_image
-    return_image = return_image > c.MASK_THRESHOLD
-    xmin, ymin, xmax, ymax = torchvision.ops.masks_to_boxes(return_image.unsqueeze(0))[0]
+    mask_image = return_image > c.MASK_THRESHOLD
+    xmin, ymin, xmax, ymax = torchvision.ops.masks_to_boxes(mask_image.unsqueeze(0))[0]
     x, y, w, h = (xmin+xmax)/2, (ymin+ymax)/2, xmax-xmin, ymax-ymin
     label_matrix = self.calculate_label_matrix(digit_label, x, y, w, h)
-    return return_image, label_matrix, digit_label, x, y, w, h
+    return mask_image.float().unsqueeze(0), label_matrix, digit_label, x, y, w, h
 
   def __len__(self):
     return self.trn_ds.__len__()
