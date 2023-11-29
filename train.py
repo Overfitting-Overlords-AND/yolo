@@ -6,6 +6,7 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader
 from model import Yolov1
 from dataset import DigitsDataset
+from utils import save_checkpoint
 # from utils import (
 #     non_max_suppression,
 #     mean_average_precision,
@@ -47,7 +48,7 @@ def train_fn(train_loader, model, optimizer, loss_fn):
 
         # update progress bar
         loop.set_postfix(loss=loss.item())
-
+    
     print(f"Mean loss was {sum(mean_loss)/len(mean_loss)}")
 
 
@@ -69,6 +70,7 @@ def main():
 
     for epoch in range(EPOCHS):
         train_fn(train_loader, model, optimizer, loss_fn)
+        save_checkpoint(model.state_dict(), f"./output/epoch_{epoch+1}.pt")
 
 
 if __name__ == "__main__":
