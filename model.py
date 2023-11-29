@@ -18,7 +18,7 @@ class Yolov1(nn.Module):
         super(Yolov1, self).__init__()
         self.in_channels = in_channels
         self.convs = self._create_conv_layers()
-        self.fcs = self._create_fcs(**kwargs)
+        self.fcs = self._create_fcs()
 
     def forward(self, x):
         x = self.convs(x)
@@ -35,7 +35,8 @@ class Yolov1(nn.Module):
     def _create_fcs(self):
         return nn.Sequential(
             nn.Flatten(),
-            nn.Linear(64 * c.SR * c.SC, 496),
+            # nn.Linear(64 * c.SR * c.SC, 496),
+            nn.Linear(25 * 87 * 64, 496),
             nn.Dropout(0.0),
             nn.LeakyReLU(0.1),
             nn.Linear(496, c.SR * c.SC * (c.C + c.B * 5)),
