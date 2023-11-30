@@ -3,6 +3,8 @@ import numpy as np
 import matplotlib.pyplot as plt
 import matplotlib.patches as patches
 from collections import Counter
+import os
+import re
 
 def intersection_over_union(boxes_preds, boxes_labels, box_format="midpoint"):
     """
@@ -337,13 +339,3 @@ def cellboxes_to_boxes(out, S=7):
         all_bboxes.append(bboxes)
 
     return all_bboxes
-
-def save_checkpoint(state, filename="my_checkpoint.pth.tar"):
-    print("=> Saving checkpoint")
-    torch.save(state, filename)
-
-
-def load_checkpoint(checkpoint, model, optimizer):
-    print("=> Loading checkpoint")
-    model.load_state_dict(checkpoint["state_dict"])
-    optimizer.load_state_dict(checkpoint["optimizer"])
