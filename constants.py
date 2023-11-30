@@ -7,3 +7,4 @@ SR = 2 # rows of cells
 SC = 7 # columns of cells
 B = 1  # bounding boxes per cell
 C = 10 # digit classifier
+CONFIDENCE_THRESHOLD = 0.5

@@ -1,9 +1,8 @@
 from PIL import Image
 import torch
-import constants as c
+import constants
 import matplotlib.pyplot as plt
 from matplotlib.patches import Rectangle
-import numpy as np
 from model import Yolov1
 from dataset import DigitsDataset
 import random
@@ -41,10 +40,10 @@ while True:
   tensor, label_matrix, digit_label, x, y, w, h = dd.__getitem__(random.randint(0,dd.__len__()))
 
   # Add a channel dimension at the first position
-  # tensor = tensor.unsqueeze(0)  
+  tensor = tensor.unsqueeze(0)  
 
   # Add a batch dimension at the first position
-  tensor = tensor.unsqueeze(0)  
+  # tensor = tensor.unsqueeze(0)  
 
   # Pass the tensor to the model
   with torch.no_grad():
@@ -57,7 +56,7 @@ while True:
             p = output[cr,cc,:10]
             x, y = 100 * (cc + x), 100 * (cr + y)
             w, h = w * 100, h * 100
-            if c > .5:   
+            if c > constants.CONFIDENCE_THRESHOLD:   
               ax.add_patch(Rectangle((x-w/2,y-h/2),width=w, height=h, edgecolor='Red', facecolor='none'))
               # ax.text(0, 0, torch.argmax(p).item())
               ax.set_title(torch.argmax(p).item())
