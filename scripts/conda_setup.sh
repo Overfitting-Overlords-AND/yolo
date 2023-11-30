@@ -8,5 +8,6 @@ source ~/.bashrc
 
 conda init bash
 conda init zsh
+conda create -n yolo
 
 exit

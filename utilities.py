@@ -21,7 +21,8 @@ def save_checkpoint(state, filename):
     torch.save(state, filename)
 
 def find_latest_epoch_file(path='./output'):
-    epoch_files = [f for f in os.listdir(path) if re.match(r'epoch_\d+\.pt', f)]
+    if os.path.exists(path):
+        epoch_files = [f for f in os.listdir(path) if re.match(r'epoch_\d+\.pt', f)]
     if epoch_files:
         # Extracting epoch numbers from the files and finding the max
         latest_epoch = max([int(f.split('_')[1].split('.')[0]) for f in epoch_files])

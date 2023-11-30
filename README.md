@@ -6,7 +6,9 @@ Quick Set Up
 git clone https://github.com/Overfitting-Overlords-AND/yolo.git
 cd yolo
 chmod +x ./scripts/*
-./scripts/setup.sh
+./scripts/conda_setup.sh
+conda activate yolo
+./scripts/env_setup.sh
 
 =============
 
