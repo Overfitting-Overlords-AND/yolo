@@ -8,5 +8,10 @@ PRIVATE_KEY_FILE="~/.ssh/gpu"
 REMOTE_DIR="/workspace/yolo/output/*" 
 LOCAL_DIR="./output"
 
+# Create local directory if it does not exist
+if [ ! -d "$LOCAL_DIR" ]; then
+    mkdir -p "$LOCAL_DIR"
+fi
+
 # Copy files from remote server to local directory
 scp -r -i "$PRIVATE_KEY_FILE" -P "$REMOTE_PORT" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR" "$LOCAL_DIR"
