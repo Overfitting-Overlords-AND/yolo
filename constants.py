@@ -1,10 +1,10 @@
 MARGIN = 0
 MINIMUM_DIGIT_SIZE = 100
-IMAGE_HEIGHT = 200
-IMAGE_WIDTH = 700
+IMAGE_HEIGHT = 400
+IMAGE_WIDTH = 400
 MASK_THRESHOLD = 0.5
-SR = 2 # rows of cells
-SC = 7 # columns of cells
+SR = 4 # rows of cells
+SC = 4 # columns of cells
 B = 1  # bounding boxes per cell
 C = 10 # digit classifier
 CONFIDENCE_THRESHOLD = 0.5
@@ -16,3 +16,5 @@ WEIGHT_DECAY = 0
 NUM_OF_EPOCHS = 100
 NUM_WORKERS = 2
 PIN_MEMORY = True
+
+WANDB_ON = True

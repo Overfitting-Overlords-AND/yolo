@@ -39,9 +39,9 @@ async def one_number(file: UploadFile = File(...)):
   image_tensor = torch.tensor(np.array(image_grayscale))
   image_mask = (image_tensor > 128).float()
   image_mask = image_mask.unsqueeze(0).unsqueeze(0)  
-  bbs = app.state.model(image_mask).reshape(2,7,15)
-  for cr in range(2):
-    for cc in range(7):
+  bbs = app.state.model(image_mask).reshape(constants.SR,constants.SC,15)
+  for cr in range(constants.SR):
+    for cc in range(constants.SC):
       c, x, y, w, h = bbs[cr,cc,10:15]
       p = bbs[cr,cc,:10]
       x, y = 100 * (cc + x), 100 * (cr + y)
