@@ -9,9 +9,10 @@ from dataset import DigitsDataset
 import utilities
 import constants
 from loss import YoloLoss
+import wandbWrapper as wandb
 
+wandb.init()
 torch.manual_seed(123)
-
 DEVICE = utilities.getDevice()
 
 def train_fn(train_loader, model, optimizer, loss_fn):
@@ -30,7 +31,9 @@ def train_fn(train_loader, model, optimizer, loss_fn):
         # update progress bar
         loop.set_postfix(loss=loss.item())
     
-    print(f"Mean loss was {sum(mean_loss)/len(mean_loss)}")
+    mean_loss = sum(mean_loss)/len(mean_loss)
+    wandb.log({"acc": 2, "mean_loss": mean_loss})
+    print(f"Mean loss was {mean_loss}")
 
 
 def main():
@@ -38,6 +41,9 @@ def main():
     optimizer = optim.Adam(model.parameters(), lr=constants.LEARNING_RATE, weight_decay=constants.WEIGHT_DECAY)
     loss_fn = YoloLoss()
     start_epoch = utilities.load_latest_checkpoint(model)
+    # num_of_params = len(model.parameters())
+    # wandb.log({"Total Parameters": num_of_params["gpt_params"], "Embeddings":  num_of_params["emb_params"]})
+
 
     train_dataset = DigitsDataset()
 
@@ -53,6 +59,8 @@ def main():
     for epoch in range(start_epoch, constants.NUM_OF_EPOCHS):
         train_fn(train_loader, model, optimizer, loss_fn)
         utilities.save_checkpoint(model.state_dict(), f"./output/epoch_{epoch+1}.pt")
+
+    wandb.finish()
 
 
 if __name__ == "__main__":
