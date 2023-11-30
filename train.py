@@ -6,31 +6,13 @@ from tqdm import tqdm
 from torch.utils.data import DataLoader
 from model import Yolov1
 from dataset import DigitsDataset
-from utils import save_checkpoint
-# from utils import (
-#     non_max_suppression,
-#     mean_average_precision,
-#     intersection_over_union,
-#     cellboxes_to_boxes,
-#     get_bboxes,
-#     plot_image,
-#     save_checkpoint,
-#     load_checkpoint,
-# )
+import utilities
+import constants
 from loss import YoloLoss
 
 torch.manual_seed(123)
 
-DEVICE = "cuda" if torch.cuda.is_available else "cpu"
-
-# Hyperparameters etc. 
-LEARNING_RATE = 2e-5
-BATCH_SIZE = 16 # 64 in original paper but I don't have that much vram, grad accum?
-WEIGHT_DECAY = 0
-EPOCHS = 1000
-NUM_WORKERS = 2
-PIN_MEMORY = True
-
+DEVICE = utilities.getDevice()
 
 def train_fn(train_loader, model, optimizer, loss_fn):
     loop = tqdm(train_loader, leave=True)
@@ -53,23 +35,24 @@ def train_fn(train_loader, model, optimizer, loss_fn):
 
 def main():
     model = Yolov1(cell_rows=2, cell_columns=7, num_boxes=2, num_classes=20).to(DEVICE)
-    optimizer = optim.Adam(model.parameters(), lr=LEARNING_RATE, weight_decay=WEIGHT_DECAY)
+    optimizer = optim.Adam(model.parameters(), lr=constants.LEARNING_RATE, weight_decay=constants.WEIGHT_DECAY)
     loss_fn = YoloLoss()
+    start_epoch = utilities.load_latest_checkpoint(model)
 
     train_dataset = DigitsDataset()
 
     train_loader = DataLoader(
         dataset=train_dataset,
-        batch_size=BATCH_SIZE,
-        num_workers=NUM_WORKERS,
-        pin_memory=PIN_MEMORY,
+        batch_size=constants.BATCH_SIZE,
+        num_workers=constants.NUM_WORKERS,
+        pin_memory=constants.PIN_MEMORY,
         shuffle=True,
         drop_last=True,
     )
 
-    for epoch in range(EPOCHS):
+    for epoch in range(start_epoch, constants.NUM_OF_EPOCHS):
         train_fn(train_loader, model, optimizer, loss_fn)
-        save_checkpoint(model.state_dict(), f"./output/epoch_{epoch+1}.pt")
+        utilities.save_checkpoint(model.state_dict(), f"./output/epoch_{epoch+1}.pt")
 
 
 if __name__ == "__main__":

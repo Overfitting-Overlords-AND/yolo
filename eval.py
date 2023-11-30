@@ -7,6 +7,7 @@ import numpy as np
 from model import Yolov1
 from dataset import DigitsDataset
 import random
+import utilities
 
 # # Load the image
 # image_path = "./5.png"
@@ -26,12 +27,11 @@ import random
 
 dd = DigitsDataset()
 
-# Example file path for the saved model
-model_path = './output/epoch_3.pt'
-
 # Load the model
 model = Yolov1()
-model.load_state_dict(torch.load(model_path))
+
+# Example file path for the saved model
+utilities.load_latest_checkpoint(model)
 
 # Set the model to evaluation mode
 model.eval()
