@@ -49,8 +49,6 @@ while True:
   # Pass the tensor to the model
   with torch.no_grad():
       output = model(tensor).reshape(2,7,15)
-
-  # output now contains the model's output
       fig, ax = plt.subplots()
       ax.imshow(tensor.squeeze(0).squeeze(0).numpy(), cmap='gray')
       for cr in range(2):
@@ -58,9 +56,10 @@ while True:
             c, x, y, w, h = output[cr,cc,10:15]
             p = output[cr,cc,:10]
             x, y = 100 * (cc + x), 100 * (cr + y)
-            w, h = w * 700, h * 200
+            w, h = w * 100, h * 100
             if c > .5:   
               ax.add_patch(Rectangle((x-w/2,y-h/2),width=w, height=h, edgecolor='Red', facecolor='none'))
+              # ax.text(0, 0, torch.argmax(p).item())
               ax.set_title(torch.argmax(p).item())
       plt.axis('off')
       plt.show()
