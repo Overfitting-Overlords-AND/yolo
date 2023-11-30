@@ -1,5 +1,16 @@
 # Object Detection with YOLO
 
+Quick Set Up
+============
+
+cd /workspace
+git clone https://github.com/Overfitting-Overlords-AND/yolo.git
+cd yolo
+chmod +x ./scripts/*
+./scripts/setup.sh
+
+=============
+
 This week, our focus will be on Convolutional Neural Networks (CNNs), specifically the YOLO (You Only Look Once) model architecture. YOLO is a significant leap in complexity, particularly known for its effectiveness in object detection tasks. If you encounter any difficulties in understanding the code or concepts, please do not hesitate to book office hours with Bes. Understanding YOLO is crucial as it stands as one of the most popular object detection architectures in use today.
 
 Goal of the week
