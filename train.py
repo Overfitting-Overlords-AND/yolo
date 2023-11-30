@@ -21,8 +21,7 @@ from loss import YoloLoss
 
 torch.manual_seed(123)
 
-# DEVICE = "cuda" if torch.cuda.is_available else "cpu"
-DEVICE = "cpu"
+DEVICE = "cuda" if torch.cuda.is_available else "cpu"
 
 # Hyperparameters etc. 
 LEARNING_RATE = 2e-5
