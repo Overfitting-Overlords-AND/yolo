@@ -15,8 +15,8 @@ import utilities
 # # Convert the image to grayscale (if it's not already)
 # image = image.convert("L")
 
-# # Resize the image to 200x700 (if it's not already)
-# image = image.resize((700, 200))
+# # Resize the image to 400x400 (if it's not already)
+# image = image.resize((400, 400))
 
 # # Convert the image to a PyTorch tensor
 # tensor = torch.tensor(np.array(image))
@@ -47,11 +47,11 @@ while True:
 
   # Pass the tensor to the model
   with torch.no_grad():
-      output = model(tensor).reshape(2,7,15)
+      output = model(tensor).reshape(constants.SR,constants.SC,15)
       fig, ax = plt.subplots()
       ax.imshow(tensor.squeeze(0).squeeze(0).numpy(), cmap='gray')
-      for cr in range(2):
-          for cc in range(7):
+      for cr in range(constants.SR):
+          for cc in range(constants.SC):
             c, x, y, w, h = output[cr,cc,10:15]
             p = output[cr,cc,:10]
             x, y = 100 * (cc + x), 100 * (cr + y)

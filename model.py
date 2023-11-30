@@ -36,7 +36,7 @@ class Yolov1(nn.Module):
         return nn.Sequential(
             nn.Flatten(),
             # nn.Linear(64 * c.SR * c.SC, 496),
-            nn.Linear(25 * 87 * 64, 496),
+            nn.Linear(c.IMAGE_HEIGHT/8 * c.IMAGE_WIDTH/8 * 64, 496),
             nn.Dropout(0.0),
             nn.LeakyReLU(0.1),
             nn.Linear(496, c.SR * c.SC * (c.C + c.B * 5)),

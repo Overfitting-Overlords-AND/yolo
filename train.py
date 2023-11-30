@@ -34,7 +34,7 @@ def train_fn(train_loader, model, optimizer, loss_fn):
 
 
 def main():
-    model = Yolov1(cell_rows=2, cell_columns=7, num_boxes=2, num_classes=20).to(DEVICE)
+    model = Yolov1(cell_rows=constants.SR, cell_columns=constants.SC, num_boxes=2, num_classes=20).to(DEVICE)
     optimizer = optim.Adam(model.parameters(), lr=constants.LEARNING_RATE, weight_decay=constants.WEIGHT_DECAY)
     loss_fn = YoloLoss()
     start_epoch = utilities.load_latest_checkpoint(model)
