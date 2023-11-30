@@ -13,5 +13,10 @@ if [ ! -d "$LOCAL_DIR" ]; then
     mkdir -p "$LOCAL_DIR"
 fi
 
-# Copy files from remote server to local directory
-scp -r -i "$PRIVATE_KEY_FILE" -P "$REMOTE_PORT" "$REMOTE_USER@$REMOTE_HOST:$REMOTE_DIR" "$LOCAL_DIR"
+LATEST_FILES=$(ssh -i "$PRIVATE_KEY_FILE" -p "$REMOTE_PORT" "$REMOTE_USER@$REMOTE_HOST" \
+    "find '$REMOTE_DIR' -type f -printf '%T+ %p\n' | sort -r | awk 'NR>1 {print \$2}' | head -n 3")
+
+# Copy the latest 3 files from remote server to local directory
+for file in $LATEST_FILES; do
+    scp -i "$PRIVATE_KEY_FILE" -P "$REMOTE_PORT" "$REMOTE_USER@$REMOTE_HOST:\"$file\"" "$LOCAL_DIR"
+done
