@@ -1,7 +1,6 @@
 bash conda install python=3.11.5
 
-conda create -n yolo
-conda activate yolo
+source conda_activate.sh
 conda install cudatoolkit=11.0 -y
 
 pip install torch sentencepiece datasets bitsandbytes peft accelerate scipy pipx wandb uvicorn
