@@ -3,7 +3,6 @@
 Quick Set Up
 ============
 
-cd /workspace
 git clone https://github.com/Overfitting-Overlords-AND/yolo.git
 cd yolo
 chmod +x ./scripts/*
