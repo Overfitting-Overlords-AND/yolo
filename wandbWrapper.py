@@ -6,7 +6,7 @@ def init():
   if constants.WANDB_ON:
     wandb.init(
         # set the wandb project where this run will be logged
-        project="Yolo WPP",
+        project="Yolo",
         
         # track hyperparameters and run metadata
         config={

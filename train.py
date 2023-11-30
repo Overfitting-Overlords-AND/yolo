@@ -16,7 +16,7 @@ torch.manual_seed(123)
 DEVICE = utilities.getDevice()
 
 def calc_mean_loss(loss):
-    sum(loss)/len(loss)
+    return sum(loss)/len(loss)
 
 def train_fn(train_loader, model, optimizer, loss_fn):
     loop = tqdm(train_loader, leave=True)
