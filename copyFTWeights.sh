@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # Variables
-REMOTE_HOST="97.107.178.213"
-REMOTE_PORT="12703"
+REMOTE_HOST="104.255.9.187"
+REMOTE_PORT="14211"
 REMOTE_USER="root"
 PRIVATE_KEY_FILE="~/.ssh/gpu" 
 REMOTE_DIR="/workspace/yolo/output/*" 
