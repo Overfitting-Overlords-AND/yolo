@@ -15,15 +15,26 @@ wandb.init()
 torch.manual_seed(123)
 DEVICE = utilities.getDevice()
 
+def calc_mean_loss(loss):
+    sum(loss)/len(loss)
+
 def train_fn(train_loader, model, optimizer, loss_fn):
     loop = tqdm(train_loader, leave=True)
     mean_loss = []
+    mean_box_loss = []
+    mean_object_loss = []
+    mean_no_object_loss = []
+    mean_class_loss = []
 
     for (image, label_matrix, digit_label, x, y, w, h) in loop:
         image, label_matrix = image.to(DEVICE), label_matrix.to(DEVICE)
         out = model(image)
-        loss = loss_fn(out, label_matrix)
+        loss, box_loss, object_loss, no_object_loss, class_loss = loss_fn(out, label_matrix)
         mean_loss.append(loss.item())
+        mean_box_loss.append(box_loss.item())
+        mean_object_loss.append(object_loss.item())
+        mean_no_object_loss.append(no_object_loss.item())
+        mean_class_loss.append(class_loss.item())
         optimizer.zero_grad()
         loss.backward()
         optimizer.step()
@@ -31,8 +42,13 @@ def train_fn(train_loader, model, optimizer, loss_fn):
         # update progress bar
         loop.set_postfix(loss=loss.item())
     
-    mean_loss = sum(mean_loss)/len(mean_loss)
-    wandb.log({"acc": 2, "mean_loss": mean_loss})
+    mean_loss = calc_mean_loss(mean_loss)
+    mean_box_loss = calc_mean_loss(mean_box_loss)
+    mean_object_loss = calc_mean_loss(mean_object_loss)
+    mean_no_object_loss = calc_mean_loss(mean_no_object_loss)
+    mean_class_loss = calc_mean_loss(mean_class_loss)
+
+    wandb.log({"mean_loss": mean_loss, "mean_box_loss": mean_box_loss, "mean_object_loss": mean_object_loss, "mean_no_object_loss": mean_no_object_loss, "mean_class_loss": mean_class_loss})
     print(f"Mean loss was {mean_loss}")
 
 

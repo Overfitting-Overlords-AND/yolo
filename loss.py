@@ -74,4 +74,4 @@ class YoloLoss(nn.Module):
             + class_loss
         )
 
-        return loss
+        return [loss, box_loss, object_loss, no_object_loss, class_loss]
