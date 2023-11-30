@@ -7,6 +7,7 @@ import numpy as np
 import io
 import constants
 from model import Yolov1
+import utilities
 
 app = FastAPI()
 
@@ -15,7 +16,8 @@ app = FastAPI()
 async def startup_event():
   print("Starting Up")
   model = Yolov1()
-  model.load_state_dict(torch.load('./output/epoch_1.pt'))
+
+  utilities.load_latest_checkpoint(model)
   model.eval()
   app.state.model = model 
 
