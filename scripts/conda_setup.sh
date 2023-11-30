@@ -3,9 +3,10 @@ wget https://repo.anaconda.com/miniconda/Miniconda3-latest-Linux-x86_64.sh -O ~/
 bash ~/miniconda3/miniconda.sh -b -u -p ~/miniconda3
 rm -rf ~/miniconda3/miniconda.sh
 
-export PATH=~/miniconda3/bin:~/miniconda3/scripts:$PATH
+echo "export PATH=~/miniconda3/bin:~/miniconda3/scripts:$PATH" >> ~/.bashrc
+source ~/.bashrc
 
-~/miniconda3/bin/conda init bash
-~/miniconda3/bin/conda init zsh
+conda init bash
+conda init zsh
 
 exit
