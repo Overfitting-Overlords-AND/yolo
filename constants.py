@@ -1,13 +1,13 @@
 MARGIN = 0
 MINIMUM_DIGIT_SIZE = 100
-IMAGE_HEIGHT = 400
-IMAGE_WIDTH = 400
-MASK_THRESHOLD = 0.3
-SR = 4 # rows of cells
-SC = 4 # columns of cells
+IMAGE_HEIGHT = 200
+IMAGE_WIDTH = 700
+MASK_THRESHOLD = 0.5
+SR = 2 # rows of cells
+SC = 7 # columns of cells
 B = 1  # bounding boxes per cell
 C = 10 # digit classifier
-CONFIDENCE_THRESHOLD = 0.25
+CONFIDENCE_THRESHOLD = 0.5
 
 # Hyperparameters etc. 
 LEARNING_RATE = 2e-5
