@@ -6,3 +6,4 @@ conda install matplotlib chardet
 pip install torch wandb uvicorn torchvision fastapi python-multipart tqdm
 
 exit
+conda 
