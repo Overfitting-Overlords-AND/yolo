@@ -35,9 +35,23 @@ utilities.load_latest_checkpoint(model)
 # Set the model to evaluation mode
 model.eval()
 
+def drawImage(x, y, w, h):  
+  for cr in range(constants.SR):
+    for cc in range(constants.SC):
+      c, x, y, w, h = output[cr,cc,10:15]
+      p = output[cr,cc,:10]
+      x, y = 100 * (cc + x), 100 * (cr + y)
+      w, h = w * 100, h * 100
+      if c > constants.CONFIDENCE_THRESHOLD:   
+        ax.add_patch(Rectangle((x-w/2,y-h/2),width=w, height=h, edgecolor='Red', facecolor='none'))
+        # ax.text(0, 0, torch.argmax(p).item())
+        ax.set_title(torch.argmax(p).item())
+
 while True:
   # get an image
-  tensor, label_matrix, digit_label, x, y, w, h = dd.__getitem__(random.randint(0,dd.__len__()))
+  tensor, label_matrix, labels = dd.__getitem__(random.randint(0,dd.__len__()))
+  _, x1, y1, w1, h1 = labels[0]
+  _, x2, y2, w2, h2 = labels[1]
 
   # Add a channel dimension at the first position
   tensor = tensor.unsqueeze(0)  
@@ -50,16 +64,8 @@ while True:
       output = model(tensor).reshape(constants.SR,constants.SC,15)
       fig, ax = plt.subplots()
       ax.imshow(tensor.squeeze(0).squeeze(0).numpy(), cmap='gray')
-      for cr in range(constants.SR):
-          for cc in range(constants.SC):
-            c, x, y, w, h = output[cr,cc,10:15]
-            p = output[cr,cc,:10]
-            x, y = 100 * (cc + x), 100 * (cr + y)
-            w, h = w * 100, h * 100
-            if c > constants.CONFIDENCE_THRESHOLD:   
-              ax.add_patch(Rectangle((x-w/2,y-h/2),width=w, height=h, edgecolor='Red', facecolor='none'))
-              # ax.text(0, 0, torch.argmax(p).item())
-              ax.set_title(torch.argmax(p).item())
+      drawImage(x1, y1, w1, h1)
+      drawImage(x2, y2, w2, h2)
       plt.axis('off')
       plt.show()
       print(output)
