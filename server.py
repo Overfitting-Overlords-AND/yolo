@@ -1,4 +1,5 @@
 from fastapi import FastAPI, File, UploadFile
+import fastapi
 from fastapi.responses import StreamingResponse
 from io import BytesIO
 from PIL import Image, ImageDraw
@@ -8,6 +9,7 @@ import io
 import constants
 from model import Yolov1
 import utilities
+import base64
 
 app = FastAPI()
 
@@ -30,8 +32,10 @@ def on_root():
   return { "message": "Hello App" }
 
 @app.post("/one_number")
-async def one_number(file: UploadFile = File(...)):
-  contents = await file.read()
+async def one_number(request: fastapi.Request):
+  raw = (await request.json())["img"]
+  raw = raw.split(',')[1]
+  contents = base64.b64decode(raw)
   image_stream = io.BytesIO(contents)
   image = Image.open(image_stream)
   draw = ImageDraw.Draw(image)
@@ -57,3 +61,19 @@ async def one_number(file: UploadFile = File(...)):
 if __name__ == "__main__":
     import uvicorn
     uvicorn.run(app, host="0.0.0.0", port=8080)
+
+
+  #   async def one_number(request: fastapi.Request):
+  # raw = (await request.json())["img"]
+  # raw = raw.split(',')[1]
+  # npArr = numpy.frombuffer(base64.b64decode(raw), numpy.uint8)
+  # img = cv2.imdecode(npArr, cv2.IMREAD_COLOR)
+  # grayImage = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+  # grayImage = cv2.resize(grayImage, (28, 28), interpolation=cv2.INTER_LINEAR)
+  # npImg = numpy.expand_dims(grayImage, axis=0)
+  # npImgTensor = torch.tensor(npImg)
+  # npImgTensor = npImgTensor.unsqueeze(dim=0).float()
+  # npImgTensor = npImgTensor.view(1, 1, 28, 28)
+  # output = app.state.digit(npImgTensor)
+  # probabilities = torch.nn.functional.softmax(output, dim=1).detach().numpy().tolist()[0]
+  # result = [{"class": str(i), "value": prob} for i, prob in enumerate(probabilities)]
