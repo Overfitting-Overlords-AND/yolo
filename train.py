@@ -26,7 +26,7 @@ def train_fn(train_loader, model, optimizer, loss_fn):
     mean_no_object_loss = []
     mean_class_loss = []
 
-    for (image, label_matrix, _) in loop:
+    for (image, label_matrix) in loop:
         image, label_matrix = image.to(DEVICE), label_matrix.to(DEVICE)
         out = model(image)
         loss, box_loss, object_loss, no_object_loss, class_loss = loss_fn(out, label_matrix)
